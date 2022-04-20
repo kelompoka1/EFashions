@@ -3,7 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package efashion.featureadmin;
-
+import efashion.koneksi;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author kitan
@@ -13,8 +18,12 @@ public class editdelete_karyawan extends javax.swing.JFrame {
     /**
      * Creates new form editdelete_karyawan
      */
-    public editdelete_karyawan() {
+    public editdelete_karyawan() throws SQLException {
         initComponents();
+        this.alert_username1.setVisible(false);
+
+        this.txt_idrkywn.setEnabled(false);
+     getAllDataKaryawan();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,6 +36,20 @@ public class editdelete_karyawan extends javax.swing.JFrame {
 
         txt_idkrywn1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        txt_idrkywn = new javax.swing.JTextField();
+        txt_namakrywn = new javax.swing.JTextField();
+        txt_alamat = new javax.swing.JTextField();
+        txt_telepon = new javax.swing.JTextField();
+        txt_type = new javax.swing.JTextField();
+        txt_username = new javax.swing.JTextField();
+        txt_username1 = new javax.swing.JTextField();
+        btn_hapus = new javax.swing.JButton();
+        btn_edit1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_karyawan = new javax.swing.JTable();
+        alert_username1 = new javax.swing.JLabel();
+        txt_password = new javax.swing.JPasswordField();
+        jLabel2 = new javax.swing.JLabel();
 
         txt_idkrywn1.setBackground(new java.awt.Color(196, 196, 196));
         txt_idkrywn1.setForeground(new java.awt.Color(0, 0, 0));
@@ -40,16 +63,308 @@ public class editdelete_karyawan extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/efashion/src/adm_edithapuskaryawan.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        txt_idrkywn.setBackground(new java.awt.Color(196, 196, 196));
+        txt_idrkywn.setForeground(new java.awt.Color(0, 0, 0));
+        txt_idrkywn.setCaretColor(new java.awt.Color(196, 196, 196));
+        txt_idkrywn1.setBorder(null);
+        txt_idrkywn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_idrkywnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_idrkywn, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 240, 30));
+
+        txt_namakrywn.setBackground(new java.awt.Color(196, 196, 196));
+        txt_namakrywn.setForeground(new java.awt.Color(0, 0, 0));
+        txt_namakrywn.setCaretColor(new java.awt.Color(196, 196, 196));
+        txt_idkrywn1.setBorder(null);
+        txt_namakrywn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_namakrywnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_namakrywn, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 240, 30));
+
+        txt_alamat.setBackground(new java.awt.Color(196, 196, 196));
+        txt_alamat.setForeground(new java.awt.Color(0, 0, 0));
+        txt_alamat.setCaretColor(new java.awt.Color(196, 196, 196));
+        txt_idkrywn1.setBorder(null);
+        txt_alamat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_alamatActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_alamat, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 240, 30));
+
+        txt_telepon.setBackground(new java.awt.Color(196, 196, 196));
+        txt_telepon.setForeground(new java.awt.Color(0, 0, 0));
+        txt_telepon.setCaretColor(new java.awt.Color(196, 196, 196));
+        txt_idkrywn1.setBorder(null);
+        txt_telepon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_teleponActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_telepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 390, 240, 30));
+
+        txt_type.setBackground(new java.awt.Color(196, 196, 196));
+        txt_type.setForeground(new java.awt.Color(0, 0, 0));
+        txt_type.setCaretColor(new java.awt.Color(196, 196, 196));
+        txt_idkrywn1.setBorder(null);
+        txt_type.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_typeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 240, 30));
+
+        txt_username.setBackground(new java.awt.Color(196, 196, 196));
+        txt_username.setForeground(new java.awt.Color(0, 0, 0));
+        txt_username.setCaretColor(new java.awt.Color(196, 196, 196));
+        txt_idkrywn1.setBorder(null);
+        txt_username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_usernameActionPerformed(evt);
+            }
+        });
+        txt_username.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_usernameKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txt_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 190, 240, 30));
+
+        txt_username1.setBackground(new java.awt.Color(196, 196, 196));
+        txt_username1.setForeground(new java.awt.Color(0, 0, 0));
+        txt_username1.setCaretColor(new java.awt.Color(196, 196, 196));
+        txt_idkrywn1.setBorder(null);
+        txt_username1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_username1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_username1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 190, 240, 30));
+
+        btn_hapus.setBackground(new java.awt.Color(255, 0, 0));
+        btn_hapus.setForeground(new java.awt.Color(255, 255, 255));
+        btn_hapus.setText("HAPUS");
+        btn_hapus.setBorder(null);
+        btn_hapus.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                btn_hapusInputMethodTextChanged(evt);
+            }
+        });
+        btn_hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_hapusActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_hapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 270, 60));
+
+        btn_edit1.setBackground(new java.awt.Color(101, 209, 255));
+        btn_edit1.setForeground(new java.awt.Color(255, 255, 255));
+        btn_edit1.setText("EDIT");
+        btn_edit1.setBorder(null);
+        btn_edit1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                btn_edit1InputMethodTextChanged(evt);
+            }
+        });
+        btn_edit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_edit1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_edit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 340, 270, 50));
+
+        table_karyawan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_karyawanMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table_karyawan);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, 150, 330));
+
+        alert_username1.setForeground(new java.awt.Color(255, 51, 51));
+        alert_username1.setText("panjang username tidak boleh dari 4");
+        getContentPane().add(alert_username1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 220, 210, -1));
+        getContentPane().add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 260, 240, 30));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/efashion/featureadmin/adm_edithapuskaryawan.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+  DefaultTableModel tdm;
+    private void getAllDataKaryawan() throws SQLException{
+        String queryGet = "SELECT * FROM `karyawan`";
+       tdm = new DefaultTableModel();
+       tdm.addColumn("no");
+       tdm.addColumn("id");
+       tdm.addColumn("nama karyawan");
+        java.sql.Connection con = (Connection) koneksi.getConDB();
+        java.sql.PreparedStatement prs = con.prepareStatement(queryGet);
+        java.sql.ResultSet rs = prs.executeQuery();
+  
+        int no = 1;
+        while(rs.next()){
+            tdm.addRow(new Object[]{
+                no++
+                    ,rs.getString("idkrywn"),
+                    rs.getString("nama_krywn")
+            });
+        }
+        
+              this.table_karyawan.setModel(tdm);
+       
+    }
+    private void setAllFieldFromDataKaryawan(){
+        
+    }
     private void txt_idkrywn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idkrywn1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_idkrywn1ActionPerformed
+
+    private void txt_idrkywnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idrkywnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_idrkywnActionPerformed
+
+    private void txt_namakrywnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_namakrywnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_namakrywnActionPerformed
+
+    private void txt_alamatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_alamatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_alamatActionPerformed
+
+    private void txt_teleponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_teleponActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_teleponActionPerformed
+
+    private void txt_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_typeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_typeActionPerformed
+
+    private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_usernameActionPerformed
+
+    private void txt_username1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_username1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_username1ActionPerformed
+
+    private void btn_hapusInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_btn_hapusInputMethodTextChanged
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btn_hapusInputMethodTextChanged
+
+ 
+    private void hapusData() throws SQLException{
+        String queryDeleteLogin = "DELETE FROM `login` WHERE `idkrywn` = '" + this.txt_idrkywn.getText() + "'";
+        java.sql.Connection connLogin = (Connection) koneksi.getConDB();
+        java.sql.Statement stmLogin = connLogin.createStatement();
+        stmLogin.execute(queryDeleteLogin);
+        
+       /*
+          String queryDeleteKaryawan = "DELETE FROM `karyawan` WHERE `idkrywn` = '" + this.txt_idrkywn.getText() + "'";
+          java.sql.Connection connKaryawan = (Connection) koneksi.getConDB();  
+        java.sql.Statement stmKaryawan= connKaryawan.createStatement();
+        stmKaryawan.execute(queryDeleteKaryawan);
+        tdm.removeRow(table_karyawan.getSelectedRow());
+        
+        */
+    }
+    private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
+        try {
+            hapusData();
+        } catch (SQLException ex) {
+            Logger.getLogger(editdelete_karyawan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_hapusActionPerformed
+
+    private void btn_edit1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_btn_edit1InputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_edit1InputMethodTextChanged
+
+    
+    private void editDataKaryawan() throws SQLException{
+        String id_krywn = this.txt_idrkywn.getText();
+        String namakrywn = this.txt_namakrywn.getText();
+        String alamat = this.txt_alamat.getText();
+        String no_telpon = this.txt_telepon.getText();
+        String type = this.txt_type.getText();
+        String username = this.txt_username.getText();
+        String password = new String(this.txt_password.getPassword());
+        
+        System.out.println(password);
+        String queryEditLogin = "UPDATE `login` SET `username` = '" + username +"' , `password` = '" + password +"' WHERE `idkrywn` = '" + id_krywn + "';";
+        System.out.println(queryEditLogin);
+        java.sql.Connection conn = (Connection) koneksi.getConDB();
+        java.sql.Statement stm = conn.createStatement();
+        stm.executeUpdate(queryEditLogin);
+        String queryEditKaryawan = "UPDATE `kardyawan` SET `nama_krywn` = '" + namakrywn +"' , `alamat` = '" + alamat + "', `no_telp` = '" + no_telpon
+                + "',`type` = '" + type + "' WHERE `idkrywn` = '" + id_krywn +"';";
+        System.out.println(queryEditKaryawan);
+        java.sql.Connection connKaryawan = (Connection) koneksi.getConDB();
+        java.sql.Statement stmd = connKaryawan.createStatement();
+        stmd.execute(queryEditKaryawan);
+       
+      
+          
+    }
+    private void btn_edit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_edit1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            editDataKaryawan();
+             JOptionPane.showMessageDialog(null, "Update Data Berhasil !");
+        } catch (SQLException ex) {
+            Logger.getLogger(editdelete_karyawan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btn_edit1ActionPerformed
+
+    private void table_karyawanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_karyawanMouseClicked
+        try {
+            // TODO add your handling code here:
+            int getPositionOfRowtable = table_karyawan.rowAtPoint(evt.getPoint());
+            String id_krywn = table_karyawan.getValueAt(getPositionOfRowtable, 1).toString();
+            System.out.printf("%s%n",id_krywn);
+            String query = "SELECT * FROM `karyawan` JOIN `login` ON `login`.`idkrywn` = `karyawan`.`idkrywn` WHERE `karyawan`.`idkrywn` = '" + id_krywn + "'";
+            System.out.println(query);
+            java.sql.Connection conn = (Connection) koneksi.getConDB();
+            java.sql.PreparedStatement prs = conn.prepareStatement(query);
+            java.sql.ResultSet rs = prs.executeQuery();
+            while(rs.next()){
+                this.txt_idrkywn.setText(rs.getString("idkrywn"));
+                this.txt_namakrywn.setText(rs.getString("nama_krywn"));
+                this.txt_alamat.setText(rs.getString("alamat"));
+                this.txt_telepon.setText(rs.getString("no_telp"));
+                this.txt_type.setText(rs.getString("type"));
+                this.txt_username.setText(rs.getString("username"));
+                this.txt_password.setText(rs.getString("password"));
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(editdelete_karyawan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_table_karyawanMouseClicked
+
+    private void txt_usernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_usernameKeyTyped
+        // TODO add your handling code here:
+        int len = this.txt_username.getText().length();
+        if(len >=4 ){
+            this.alert_username1.setVisible(true);
+        } else if(len <= 4){
+            this.alert_username1.setVisible(false);
+        }
+    }//GEN-LAST:event_txt_usernameKeyTyped
 
     /**
      * @param args the command line arguments
@@ -81,13 +396,31 @@ public class editdelete_karyawan extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new editdelete_karyawan().setVisible(true);
+                try {
+                    new editdelete_karyawan().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(editdelete_karyawan.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel alert_username1;
+    private javax.swing.JButton btn_edit1;
+    private javax.swing.JButton btn_hapus;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table_karyawan;
+    private javax.swing.JTextField txt_alamat;
     private javax.swing.JTextField txt_idkrywn1;
+    private javax.swing.JTextField txt_idrkywn;
+    private javax.swing.JTextField txt_namakrywn;
+    private javax.swing.JPasswordField txt_password;
+    private javax.swing.JTextField txt_telepon;
+    private javax.swing.JTextField txt_type;
+    private javax.swing.JTextField txt_username;
+    private javax.swing.JTextField txt_username1;
     // End of variables declaration//GEN-END:variables
 }
